@@ -227,6 +227,7 @@ DEPENDENCIES
   grape-swagger-rails
   jbuilder (~> 2.0)
   jquery-rails
+  json
   mm-devise
   mongo_mapper
   pry-rails

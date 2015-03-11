@@ -15,7 +15,7 @@ class Api::V1::TokenApi < Grape::API
       user = User.find_by_email(params[:email]) rescue nil
       if user && user.valid_password?(params[:password])
         user.ensure_authentication_token!
-        present user, with: Entity::UserEntity
+        present user, with: Entity::TokenEntity
       else
         error! 'Unauthorized, invalid password email', 401
       end

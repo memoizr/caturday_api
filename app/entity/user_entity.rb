@@ -1,9 +1,7 @@
 module Entity
   class UserEntity < Grape::Entity
-    expose :_id
-    expose :authentication_token
+    expose :_id, as: :id
     expose :email
     expose :username
-    expose :description
   end
 end

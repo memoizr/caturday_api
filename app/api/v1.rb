@@ -8,5 +8,6 @@ class Api::V1 < Grape::API
   mount CatPostApi
   mount TokenApi
   mount CommentApi
+  mount PingApi
 end
 
