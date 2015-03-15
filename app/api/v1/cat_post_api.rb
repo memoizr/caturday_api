@@ -2,7 +2,7 @@ class Api::V1::CatPostApi < Grape::API
   resource :cat_post do
 
     # Require authentication
-    before { authenticated? }
+    #before { authenticated? }
 
     # SHOW
     get do

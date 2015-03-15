@@ -7,8 +7,8 @@ module Api::Auth
   def authenticated?
     if warden.authenticated?
       return true
-    elsif params[:api_key] and
-      @current_user = User.where(authentication_token: params[:api_key]).last
+    elsif params[:auth_token] or headers["Auth-Token"]
+      @current_user = User.where(authentication_token: params[:auth_token]).last
     else
       error!({"error" => "Token invalid or expired"}, 401)
     end

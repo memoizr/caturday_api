@@ -1,5 +1,23 @@
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
+require 'devise/strategies/token_authenticatable'
+module Devise
+  module Strategies
+    class TokenAuthenticatable < Authenticatable
+      def params_auth_hash
+        return_params = if params[scope].kind_of?(Hash) && params[scope].has_key?(authentication_keys.first)
+          params[scope]
+        else
+          params
+        end
+        token = ActionController::HttpAuthentication::Token.token_and_options(request)
+        return_params.merge!(:auth_token => token[0]) if token
+        return_params
+      end
+    end
+  end
+end
+
 Devise.setup do |config|
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
@@ -192,7 +210,7 @@ Devise.setup do |config|
 
   # ==> Configuration for :token_authenticatable
   # Defines name of the authentication token params key
-  config.token_authentication_key = :api_key
+  config.token_authentication_key = :auth_token
 
   # ==> Scopes configuration
   # Turn scoped views on. Before rendering "sessions/new", it will first check for

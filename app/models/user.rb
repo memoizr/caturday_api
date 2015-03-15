@@ -3,7 +3,7 @@ class User
   include ActiveModel::SecurePassword
 
   devise :database_authenticatable, :registerable,
-    :recoverable, :rememberable, :trackable, :validatable, #here
+    :recoverable, :rememberable, :trackable, :validatable,
     :token_authenticatable
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -30,6 +30,10 @@ class User
   key :reset_password_sent_at, Time
   key :authentication_token, String
 
+  key :confirmation_token, String
+  key :confirmed_at, Time
+  key :confirmation_sent_at, Time
+
   ## Rememberable
   key :remember_created_at, :type => Time
 
@@ -39,4 +43,8 @@ class User
   key :last_sign_in_at,    :type => Time
   key :current_sign_in_ip, :type => String
   key :last_sign_in_ip,    :type => String
+
+  def skip_confirmation!
+    self.confirmed_at = Time.now
+  end
 end

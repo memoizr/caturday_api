@@ -1,6 +1,9 @@
 class Api::V1::PingApi < Grape::API
   resource :ping do
 
+    before { authenticated? }
+    #before :authenticate_user!
+
     get do
       {"ping" => "pongator"}
     end

@@ -1,6 +1,6 @@
 module Entity
   class CommentEntity < Grape::Entity
-    expose :_id
+    expose :_id, as: :id
     expose :content
     expose :user do |comment, options|
       UserEntity.new(comment.user, options)
