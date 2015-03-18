@@ -8,6 +8,8 @@ class User
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
+  timestamps!
+
   key :username, String
   key :email, String
   key :password_digest, String
@@ -15,8 +17,12 @@ class User
   key :description, String
   key :first_name, String
   key :last_name, String
+  key :image_url, String
+  key :account_suspended, String, default: false
 
   many :cat_posts
+  many :votes
+  many :comments
 
   validates :password, presence: true, length: {minimum: 6}, on: :create
   validates :username, presence: true, length: {maximum: 20}

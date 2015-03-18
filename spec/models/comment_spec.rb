@@ -8,23 +8,14 @@ describe Comment, :type => :model do
     describe 'with valid parameters' do
       let!(:comment) {
         Comment.create(
-          content: "This is cool", cat_post: cat_post, user: user ) }
+          content: "This is cool",
+          commentable_type: "CatPost",
+          commentable_id: cat_post.id,
+          user_id: user.id ) }
 
       it 'post belongs to user' do
-        expect(cat_post.comments).to eq([comment])
+        expect(cat_post.reload.comments).to eq([comment])
       end
-    end
-  end
-
-  describe 'add_like' do
-    let!(:comment) { create(:comment) }
-
-    before do
-      comment.update_attributes(likes: 1)
-    end
-
-    it 'adds a like' do
-      expect(comment.add_like).to eq(2)
     end
   end
 end

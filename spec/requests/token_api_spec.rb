@@ -3,11 +3,8 @@ require 'spec_helper'
 describe Api::V1::TokenApi, :type => :request do
   let!(:current_user) { create(:user, username: 'Foobar', email: "foo@bar.com", password: 'helloworld') }
 
-  before do
-  end
-
   describe 'POST #create' do
-    it "returns 200" do
+    xit "returns 200" do
       post "/api/v1/token.json", {
         "email" => "foo@bar.com",
         "password" => "helloworld"

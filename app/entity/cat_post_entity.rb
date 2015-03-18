@@ -3,14 +3,30 @@ module Entity
     expose :_id, as: :id
     expose :caption
     expose :image_url
-    expose :likes
+    expose :category
 
-    expose :userJSON do |post, options|
-      post.user.to_json
+    #expose :reshares_count do |post, options|
+      #post.reshares.count
+    #end
+
+    expose :user do |post, options|
+      UserEntity.new(post.user, options).to_json
     end
 
-    expose :commentsJSON do |post, options|
-      post.comments.to_json
+    #expose :positive_votes_count do |post|
+      #post.votes.where(positive: true).count
+    #end
+
+    #expose :negative_votes_count do |post|
+      #post.votes.where(positive: false).count
+    #end
+
+    expose :total_votes_count do |post|
+      post.votes.count
+    end
+
+    expose :comments do |post, options|
+      post.comments.map{|i| CommentEntity.new(i)}
     end
   end
 end

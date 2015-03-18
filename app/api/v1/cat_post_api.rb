@@ -6,7 +6,7 @@ class Api::V1::CatPostApi < Grape::API
 
     # SHOW
     get do
-      cat_posts = CatPost.all
+      cat_posts = CatPost.all.take 250
       present cat_posts, with: Entity::CatPostEntity
     end
 

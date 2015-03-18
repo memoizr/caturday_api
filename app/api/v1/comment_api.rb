@@ -1,21 +1,19 @@
 class Api::V1::CommentApi < Grape::API
   resource :comment do
-    #
+
     # Require authentication
     before { authenticated? }
 
-    get do
-      present Comment.all, with: Entity::CommentEntity
-    end
-
     # CREATE
     post  do
-      Comment.create!(
-        author: params[:author],
-        message: params[:message],
-        image_url: params[:image_url]
+      comment = Comment.create!(
+        user_id: params[:user_id],
+        commentable_type: params[:commentable_type],
+        commentable_id: params[:commentable_id],
+        content: params[:content],
+        reply_to_user_ids: params[:reply_to_user_ids]
       )
-      render nothing: true
+      present comment, with: Entity::CommentEntity
     end
   end
 end
