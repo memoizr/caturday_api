@@ -6,6 +6,7 @@ class Api::V1::CommentApi < Grape::API
 
     # CREATE
     post  do
+      puts params
       comment = Comment.create!(
         user_id: params[:user_id],
         commentable_type: params[:commentable_type],

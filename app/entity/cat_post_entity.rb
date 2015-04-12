@@ -4,6 +4,8 @@ module Entity
     expose :caption
     expose :image_url
     expose :category
+    expose :download_count
+    expose :favorite_count
 
     #expose :reshares_count do |post, options|
       #post.reshares.count

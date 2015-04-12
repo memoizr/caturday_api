@@ -30,6 +30,8 @@ gem 'warden'
 gem 'mm-devise'
 gem 'bson_ext'
 
+gem 'kaminari'
+
 
 group :test, :development do
   gem 'pry-rails'

@@ -1,14 +1,13 @@
 class Api::V1::UserApi < Grape::API
-  resource :user_data do
+  resource :user do
     desc "Lists all user"
 
     # Require authentication
     before { authenticated? }
 
     ## GET
-    get do
-      #user = User.find(params[:user_id])
-      user = User.last
+    get ':id' do
+      user = User.find(params[:user_id])
       present user, with: Entity::UserEntity
     end
 

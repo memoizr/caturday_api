@@ -6,7 +6,9 @@ class Api::V1::CatPostApi < Grape::API
 
     # SHOW
     get do
-      cat_posts = CatPost.all.take 250
+      page = params[:page]
+      category = params[:category]
+      cat_posts = CatPost.where(category: category).page(page).all
       present cat_posts, with: Entity::CatPostEntity
     end
 
@@ -24,5 +26,32 @@ class Api::V1::CatPostApi < Grape::API
       )
       present cat_post, with: Entity::CatPostEntity
     end
+
+    put ':id/download' do
+      id = params[:id]
+      user_id = params[:user_id]
+      cat_post = CatPost.find(id)
+      cat_post.add_download id
+      if user_id
+        user = User.find(user_id)
+        user.add_download(user_id, id)
+      end
+      present cat_post.reload, with: Entity::CatPostEntity
+    end
+
+    put ':id/favorite' do
+      id = params[:id]
+      user_id = params[:user_id]
+      cat_post = CatPost.find(id)
+      cat_post.add_favorite id
+
+      if user_id
+        user = User.find(user_id)
+        user.add_favorite(user_id, id)
+      end
+
+      present cat_post.reload, with: Entity::CatPostEntity
+    end
   end
 end
+

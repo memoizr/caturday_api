@@ -16,4 +16,3 @@ class Api::V1::PingApi < Grape::API
   end
 end
 
-

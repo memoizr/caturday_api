@@ -19,6 +19,8 @@ class User
   key :last_name, String
   key :image_url, String
   key :account_suspended, String, default: false
+  key :downloads, Array
+  key :favorites, Array
 
   many :cat_posts
   many :votes
@@ -52,5 +54,15 @@ class User
 
   def skip_confirmation!
     self.confirmed_at = Time.now
+  end
+
+  def add_download(user_id, cat_post_id)
+    user = User.find(user_id)
+    user.push(downloads: cat_post_id)
+  end
+
+  def add_favorite(user_id, cat_post_id)
+    user = User.find(user_id)
+    user.push(favorites: cat_post_id)
   end
 end

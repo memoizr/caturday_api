@@ -10,6 +10,7 @@ class Api::V1::SessionsController < Devise::SessionsController
            :json => { :success => true,
                       :username => current_user.username,
                       :email => current_user.email,
+                      :image_url => current_user.image_url,
                       :id => current_user.id,
                       :info => "Logged in",
                       :authToken => current_user.authentication_token }

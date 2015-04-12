@@ -4,5 +4,7 @@ module Entity
     expose :email
     expose :username
     expose :image_url
+    expose :downloads
+    expose :favorites
   end
 end
