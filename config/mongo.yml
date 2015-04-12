@@ -19,7 +19,7 @@ test:
 # set these environment variables on your prod server
 production:
   <<: *defaults
-  host: mongodb://<dbuser>:<dbpassword>@ds061691.mongolab.com:61691/heroku_app20123775
+  host: mongodb://<%= ENV['MONGO_USERNAME'] %>:<%= ENV['MONGO_USERNAME'] %>@ds061691.mongolab.com:61691/heroku_app20123775
   database: caturday_api
   username: <%= ENV['MONGO_USERNAME'] %>
   password: <%= ENV['MONGO_PASSWORD'] %>
