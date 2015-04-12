@@ -31,6 +31,7 @@ gem 'mm-devise'
 gem 'bson_ext'
 
 gem 'kaminari'
+gem 'faker', '1.3.0' # with faker 1.4.0, I18n::InvalidLocale error is raised.
 
 
 group :test, :development do
@@ -38,5 +39,4 @@ group :test, :development do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'factory_girl_rails', require: false # manually load in spec/support/factory_girl.rb. its for spring workaround.
-  gem 'faker', '1.3.0' # with faker 1.4.0, I18n::InvalidLocale error is raised.
 end
