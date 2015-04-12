@@ -12,7 +12,11 @@ RSpec.configure do |config|
 
   config.include Devise::TestHelpers, :type => :controller
   config.before(:each) do
-    Rails.cache.clear
+    begin
+      Rails.cache.clear
+    rescue
+      Rails.cache.create
+    end
   end
 
   config.after(:each) do
