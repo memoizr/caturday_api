@@ -10,6 +10,9 @@ defaults: &defaults
 development:
   <<: *defaults
   database: caturday_api_development
+  options:
+    safe: true
+    skip_version_check: true
 
 test:
   <<: *defaults
@@ -18,8 +21,8 @@ test:
 
 # set these environment variables on your prod server
 production:
-  <<: *defaults
-  uri: <%= ENV['MONGLAB_URI'] %>
   database: caturday_api
-  username: <%= ENV['MONGO_USERNAME'] %>
-  password: <%= ENV['MONGO_PASSWORD'] %>
+  uri: <%= ENV['MONGOLAB_URI'] %>
+  options:
+    safe: true
+    skip_version_check: true
