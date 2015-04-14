@@ -3,6 +3,7 @@ class CatPost
   include Voteable
   include Commentable
   include Downloadable
+  include Reshareable
 
   timestamps!
 

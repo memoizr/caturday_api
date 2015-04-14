@@ -7,16 +7,15 @@ module Entity
     expose :download_count
     expose :vote_count
 
-    #expose :reshares_count do |post, options|
-      #post.reshares.count
-    #end
+    expose :reshare_count
 
     expose :user do |post, options|
       UserEntity.new(post.user, options).to_json
     end
 
     expose :comments do |post, options|
-      post.comment_ids.map{|comment_id| CommentEntity.new(Comment.find(comment_id))}
+      comments = Comment.find(post.comment_ids)
+      comments.map{|comment| CommentEntity.new(comment)}
     end
   end
 end

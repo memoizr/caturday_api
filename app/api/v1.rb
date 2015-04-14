@@ -14,5 +14,6 @@ class Api::V1 < Grape::API
   mount CommentApi
   mount PingApi
   mount VoteApi
+  mount FollowApi
 end
 

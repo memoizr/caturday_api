@@ -60,15 +60,15 @@ json_list.each do |json_hash|
 
   json["urls"].each do |url|
     cat_post = CatPost.create!(image_url: url["url"], category: category, user_id: random_user.id, caption: Faker::Lorem.sentence(2, false, 2))
-    [*0..4].sample.times {
+    [*0..2].sample.times {
       Reshare.create!(reshareable_id: cat_post.id, reshareable_type: "CatPost", user_id: random_user.id)
     }
-    [*0..8].sample.times {
+    [*0..4].sample.times {
       Vote.create!(voteable_id: cat_post.id, voteable_type: "CatPost", positive: [1, 1, 0].sample, user_id: random_user.id)
     }
     [*0..20].sample.times {
       comment = Comment.create!(commentable_id: cat_post.id, commentable_type: "CatPost", content: Faker::Lorem.sentence(5, false, 5), user_id: random_user.id)
-      [*0..3].sample.times {
+      [*0..2].sample.times {
         Vote.create!(voteable_id: comment.id, voteable_type: "Comment", positive: [1, 0, 1].sample, user_id: random_user.id)
       }
     }
