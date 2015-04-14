@@ -21,8 +21,6 @@ describe Api::V1::CatPostApi, :type => :request do
         "CONTENT_TYPE" => "application/json"
       }
 
-      body = JSON.parse(response.body)
-      puts body
       expect(response.status).to eq(201)
     end
   end

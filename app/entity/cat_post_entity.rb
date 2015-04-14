@@ -5,7 +5,7 @@ module Entity
     expose :image_url
     expose :category
     expose :download_count
-    expose :favorite_count
+    expose :vote_count
 
     #expose :reshares_count do |post, options|
       #post.reshares.count
@@ -15,20 +15,8 @@ module Entity
       UserEntity.new(post.user, options).to_json
     end
 
-    #expose :positive_votes_count do |post|
-      #post.votes.where(positive: true).count
-    #end
-
-    #expose :negative_votes_count do |post|
-      #post.votes.where(positive: false).count
-    #end
-
-    expose :total_votes_count do |post|
-      post.votes.count
-    end
-
     expose :comments do |post, options|
-      post.comments.map{|i| CommentEntity.new(i)}
+      post.comment_ids.map{|comment_id| CommentEntity.new(Comment.find(comment_id))}
     end
   end
 end

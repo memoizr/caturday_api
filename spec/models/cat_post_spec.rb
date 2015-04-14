@@ -23,7 +23,7 @@ describe CatPost, :type => :model do
                             content: "No problem") }
 
     it 'lists the comments' do
-      expect(cat_post.reload.comments).to eq([comment])
+      expect(cat_post.reload.comment_ids).to eq([comment.id])
     end
   end
 end

@@ -14,7 +14,7 @@ describe Comment, :type => :model do
           user_id: user.id ) }
 
       it 'post belongs to user' do
-        expect(cat_post.reload.comments).to eq([comment])
+        expect(cat_post.reload.comment_ids).to eq([comment.id])
       end
     end
   end

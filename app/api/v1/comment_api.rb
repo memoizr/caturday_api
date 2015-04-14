@@ -6,15 +6,22 @@ class Api::V1::CommentApi < Grape::API
 
     # CREATE
     post  do
-      puts params
       comment = Comment.create!(
-        user_id: params[:user_id],
+        user_id: current_user.id,
         commentable_type: params[:commentable_type],
         commentable_id: params[:commentable_id],
-        content: params[:content],
-        reply_to_user_ids: params[:reply_to_user_ids]
+        content: params[:content]
       )
       present comment, with: Entity::CommentEntity
+    end
+
+    # DELETE
+    delete  do
+      comment = Comment.where(
+        user_id: current_user.id,
+        commentable_id: params[:commentable_id],
+      )
+      comment.first.destroy
     end
   end
 end

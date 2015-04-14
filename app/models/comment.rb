@@ -1,15 +1,18 @@
 class Comment
   include MongoMapper::Document
+  include Voteable
 
   timestamps!
 
+  after_create :add_comment
+  before_destroy :remove_comment
+
+  key :vote_count, Integer, default: 0
+  key :vote_ids, Array
+
   key :content, String
-  key :reply_to_user_ids, Array
 
-  many :votes, as: :voteable
   many :inappropriate_content_reports, as: :reportable
-
-  ensure_index :user_id
 
   belongs_to :user
   belongs_to :commentable, polymorphic: true
@@ -18,4 +21,12 @@ class Comment
   validates :commentable_type, presence: true, on: :create
   validates :commentable_id, presence: true, on: :create
   validates :user_id, presence: true, on: :create
+
+  def add_comment
+    commentable.add_comment id
+  end
+
+  def remove_comment
+    commentable.remove_comment id
+  end
 end
