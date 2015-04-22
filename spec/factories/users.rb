@@ -6,7 +6,5 @@ FactoryGirl.define do
     description         { Faker::Lorem.sentence }
     password            { Faker::Internet.password }
     email               { Faker::Internet.email }
-    encrypted_password  { "sha1$rHAi0vcS$a7808f319885964aba6dde8b9b784fc545f3715a" } # secret
-    #password_digest    { "a7808f319885964aba6dde8b9b784fc545f3715a" } # secret
   end
 end

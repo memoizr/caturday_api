@@ -3,10 +3,6 @@ class User
   include ActiveModel::SecurePassword
   include Followable
 
-  devise :database_authenticatable, :registerable,
-    :recoverable, :rememberable, :trackable, :validatable,
-    :token_authenticatable
-
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
   timestamps!
@@ -14,7 +10,6 @@ class User
   key :username, String
   key :email, String
   key :password_digest, String
-  key :encrypted_password, String, :default => ""
   key :description, String
   key :first_name, String
   key :last_name, String
@@ -33,9 +28,9 @@ class User
   validates :email, presence: true, length: {maximum: 50},
     format: {with: VALID_EMAIL_REGEX}, uniqueness: true
 
-  before_save :ensure_authentication_token
+  has_secure_password
 
-  ## Recoverable
+  # Recoverable
   key :reset_password_token, String
   key :reset_password_sent_at, Time
   key :authentication_token, String
@@ -44,15 +39,10 @@ class User
   key :confirmed_at, Time
   key :confirmation_sent_at, Time
 
-  ## Rememberable
-  key :remember_created_at, :type => Time
-
-  ## Trackable
+  # Trackable
   key :sign_in_count,      :type => Integer, :default => 0
   key :current_sign_in_at, :type => Time
   key :last_sign_in_at,    :type => Time
-  key :current_sign_in_ip, :type => String
-  key :last_sign_in_ip,    :type => String
 
   def skip_confirmation!
     self.confirmed_at = Time.now
@@ -66,5 +56,34 @@ class User
   def add_favorite(user_id, cat_post_id)
     user = User.find(user_id)
     user.push(favorites: cat_post_id)
+  end
+
+  before_save do
+    ensure_authentication_token
+  end
+
+  def log_in(password)
+    user = authenticate(password)
+
+    if user
+      increment sign_in_count: 1
+      set current_sign_in_at: Time.now
+      ensure_authentication_token
+    end
+
+    user
+  end
+
+  def ensure_authentication_token
+    if !authentication_token
+      self.authentication_token = SecureRandom.uuid.gsub(/\-/,'')
+    end
+
+    authentication_token
+  end
+
+  def log_out
+    set authentication_token: nil
+    set last_sign_in_at: Time.now
   end
 end

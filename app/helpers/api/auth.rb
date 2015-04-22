@@ -1,13 +1,7 @@
 module Api::Auth
 
-  def warden
-    env['warden']
-  end
-
   def authenticated?
-    if warden.authenticated?
-      return true
-    elsif params[:auth_token]
+    if params[:auth_token]
       @current_user = User.where(authentication_token: params[:auth_token]).last
     elsif headers["Auth-Token"]
       @current_user = User.where(authentication_token: headers["Auth-Token"]).last

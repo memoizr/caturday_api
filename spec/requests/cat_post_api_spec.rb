@@ -4,69 +4,61 @@ describe Api::V1::CatPostApi, :type => :request do
   let!(:current_user) { create(:user, username: 'Foobar', email: "foo@bar.com", password: 'helloworld') }
 
   describe 'POST #create' do
-    it "returns 200" do
-      post "/api/v1/cat_post", {
-        "user_id" => current_user.id,
-        "caption" => "helloworld",
-        "image_url" => "foo.com"
+    context "with image upload" do
+      before do
+        Grape::Endpoint.before_each do |endpoint|
+          allow(endpoint).to receive(:upload_file).and_return "lolol.com"
+        end
+
+        test_image = Rails.root.join("spec", "fixtures", "catimage.jpg")
+        file = Rack::Test::UploadedFile.new(test_image, "image/jpeg")
+        post "/api/v1/cat_post", {
+          caption: "helloworld",
+          image_file: {filename: "hello.jpg", tempfile: file},
+          category: "Space"
+        }, {
+          "Auth-Token" => current_user.authentication_token,
+          "CONTENT_TYPE" => "application/json"
+        }
+      end
+      after { Grape::Endpoint.before_each nil }
+
+      it "returns 201" do
+        expect(response.status).to eq(201)
+      end
+
+      it "returns the newly created post" do
+        body = JSON.parse(response.body)
+        expect(body["caption"]).to eq("helloworld")
+        expect(body["category"]).to eq("Space")
+        expect(body["image_url"]).to eq("lolol.com")
+      end
+    end
+
+    context "with image link" do
+      before do
+        post "/api/v1/cat_post", {
+          caption: "helloworld",
+          image_url: "zombo.com",
+          category: "Space"
         }.to_json, {
           "Auth-Token" => current_user.authentication_token,
           "CONTENT_TYPE" => "application/json"
         }
+      end
 
-      expect(response.status).to eq(201)
+      it "returns 201" do
+        expect(response.status).to eq(201)
+      end
+
+      it "returns the newly created post" do
+        body = JSON.parse(response.body)
+        expect(body["caption"]).to eq("helloworld")
+        expect(body["category"]).to eq("Space")
+        expect(body["image_url"]).to eq("zombo.com")
+      end
     end
   end
-
-  #describe 'PUT #update/download'do
-    #let!(:cat_post) { create(:cat_post,
-                             #user_id: current_user.id,
-                            #caption: "hey",
-                            #image_url: "foo.com/foo.png") }
-
-    #before do
-      #put "/api/v1/cat_post/#{cat_post.id}/download", {
-        #"user_id" => current_user.id,
-        #}.to_json, {
-          #"Auth-Token" => current_user.authentication_token,
-          #"CONTENT_TYPE" => "application/json"
-        #}
-    #end
-
-    #it "returns 200" do
-      #expect(response.status).to eq(200)
-    #end
-
-    #it "increments the download count" do
-      #body = JSON.parse(response.body)
-      #expect(body["download_count"]).to eq(1)
-    #end
-  #end
-
-  #describe 'PUT #update/vote'do
-    #let!(:cat_post) { create(:cat_post,
-                             #user_id: current_user.id,
-                            #caption: "hey",
-                            #image_url: "foo.com/foo.png") }
-
-    #before do
-      #put "/api/v1/cat_post/#{cat_post.id}/vote", {
-        #"user_id" => current_user.id,
-        #}.to_json, {
-          #"Auth-Token" => current_user.authentication_token,
-          #"CONTENT_TYPE" => "application/json"
-        #}
-    #end
-
-    #it "returns 200" do
-      #expect(response.status).to eq(200)
-    #end
-
-    #it "increments the download count" do
-      #body = JSON.parse(response.body)
-      #expect(body["vote_count"]).to eq(1)
-    #end
-  #end
 
   describe 'GET #show' do
     let!(:cat_post_0) { create(:cat_post) }
