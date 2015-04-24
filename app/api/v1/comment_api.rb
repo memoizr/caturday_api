@@ -12,7 +12,8 @@ class Api::V1::CommentApi < Grape::API
         commentable_id: params[:commentable_id],
         content: params[:content]
       )
-      present comment, with: Entity::CommentEntity
+      post = CatPost.find(comment.commentable_id)
+      present post, with: Entity::CatPostEntity
     end
 
     # DELETE

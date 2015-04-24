@@ -1,6 +1,6 @@
 module Entity
   class CatPostEntity < Grape::Entity
-    expose :_id, as: :id
+    expose :_id, as: :server_id
     expose :caption
     expose :image_url
     expose :category

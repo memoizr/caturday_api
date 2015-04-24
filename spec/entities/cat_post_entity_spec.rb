@@ -36,7 +36,7 @@ describe Entity::CatPostEntity do
   it "should create json" do
     json = Entity::CatPostEntity.new(cat_post.reload).as_json
 
-    expect(json[:id]).to eq(cat_post.id)
+    expect(json[:server_id]).to eq(cat_post.id)
     expect(json[:vote_count]).to eq 3
     expect(json[:comments][0][:vote_count]).to eq 2
   end

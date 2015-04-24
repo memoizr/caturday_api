@@ -77,6 +77,7 @@ class User
   def ensure_authentication_token
     if !authentication_token
       self.authentication_token = SecureRandom.uuid.gsub(/\-/,'')
+      set authentication_token: authentication_token
     end
 
     authentication_token

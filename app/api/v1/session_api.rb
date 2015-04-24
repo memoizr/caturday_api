@@ -12,10 +12,10 @@ class Api::V1::SessionApi < Grape::API
       email = params[:email]
       password = Base64.decode64(params[:password])
 
-      user = User.find_by_email(email) rescue nil
+      user = ::User.find_by_email(email) rescue nil
+
       if user && user.log_in(password)
-        user.ensure_authentication_token
-        present user, with: Entity::UserEntity
+        present user.reload, with: Entity::UserEntity
       else
         error! 'Unauthorized, invalid password email', 401
       end

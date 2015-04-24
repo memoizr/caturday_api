@@ -22,8 +22,7 @@ describe Api::V1::CommentApi, :type => :request do
     it "returns the id of the right post" do
       body = JSON.parse(response.body)
       expect(cat_post_0.reload.comment_count).to eql 1
-      expect(cat_post_0.reload.comment_ids[0].to_s).to eql body["id"]
-      expect(body["commentable_id"]).to eql cat_post_0.id.to_s
+      expect(body["server_id"]).to eql cat_post_0.id.to_s
     end
   end
 
