@@ -14,6 +14,7 @@ class User
   key :first_name, String
   key :last_name, String
   key :image_url, String
+  key :cover_image_url, String
   key :account_suspended, String, default: false
   key :downloads, Array
   key :favorites, Array

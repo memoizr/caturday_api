@@ -29,7 +29,7 @@ class Api::V1::SessionApi < Grape::API
     end
 
     post 'register' do
-      user = User.create!(
+      user = ::User.create!(
         username:   params[:username],
         password:   Base64.decode64(params[:password]),
         email:      params[:email]
