@@ -1,6 +1,6 @@
 module Entity
   class CatPostEntity < Grape::Entity
-    expose :_id, as: :id
+    expose :_id, as: :server_id
     expose :caption
     expose :image_url
     expose :category
@@ -10,7 +10,7 @@ module Entity
     expose :reshare_count
 
     expose :user do |post, options|
-      UserEntity.new(post.user, options).to_json
+      UserLiteEntity.new(post.user, options)
     end
 
     expose :comments do |post, options|

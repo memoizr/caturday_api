@@ -1,9 +1,10 @@
 module Entity
   class UserEntity < Grape::Entity
-    expose :_id, as: :id
+    expose :_id, as: :server_id
     expose :email
     expose :username
     expose :image_url
+    expose :cover_image_url
     expose :downloads
     expose :authentication_token
     expose :favorites

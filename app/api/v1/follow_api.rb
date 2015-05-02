@@ -7,13 +7,15 @@ class Api::V1::FollowApi < Grape::API
     # CREATE
     post  do
 
-      vote = Follow.create!(
+      follow = ::Follow.create!(
         user_id: current_user.id,
-        followable_type: params[:followable_type],
+        followable_type: "User",
         followable_id: params[:followable_id]
       )
 
-      present vote, with: Entity::FollowEntity
+      user = ::User.find(follow.followable_id)
+
+      present user, with: Entity::UserProfileEntity
     end
 
     # DELETE

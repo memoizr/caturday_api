@@ -14,6 +14,7 @@ class User
   key :first_name, String
   key :last_name, String
   key :image_url, String
+  key :cover_image_url, String
   key :account_suspended, String, default: false
   key :downloads, Array
   key :favorites, Array
@@ -77,6 +78,7 @@ class User
   def ensure_authentication_token
     if !authentication_token
       self.authentication_token = SecureRandom.uuid.gsub(/\-/,'')
+      set authentication_token: authentication_token
     end
 
     authentication_token

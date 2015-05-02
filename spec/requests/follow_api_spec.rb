@@ -16,18 +16,13 @@ describe Api::V1::FollowApi, :type => :request do
       expect(response.status).to eq(201)
     end
 
-    it "returns the id of the right post" do
+    it "returns the id of the right followed" do
       body = JSON.parse(response.body)
-      expect(body["followable_id"]).to eql followed.id.to_s
+      expect(body["server_id"]).to eql followed.id.to_s
     end
 
     it "increments the count of followers" do
       expect(followed.reload.follow_count).to eql 1
-    end
-
-    it "adds to the follower array" do
-      body = JSON.parse(response.body)
-      expect(followed.reload.follow_ids[0].to_s).to eql body["id"]
     end
 
     it "adds to the following array" do

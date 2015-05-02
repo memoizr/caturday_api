@@ -3,35 +3,28 @@ class Api::V1::UserApi < Grape::API
     desc "Lists all user"
 
     # Require authentication
-    before { authenticated? }
 
     ## GET
     get ':id' do
-      user = User.find(params[:user_id])
-      present user, with: Entity::UserEntity
+      user = ::User.find(params[:id])
+      present user, with: Entity::UserProfileEntity
     end
 
     ## PUT
     put do
-      user = current_user
-      if user
-        user.update_attributes(
-          description: params[:description]
-        )
-        present user, with: Entity::UserEntity
+      if authenticated?
+        user = current_user
+        if user
+          user.update_attributes(
+            params
+          )
+          present user, with: Entity::UserProfileEntity
+        else
+          error! user.errors
+        end
       else
-        error! user.errors
+        error! 'Unauthorized, invalid password email', 401
       end
-    end
-
-    # CREATE
-    post  do
-      user = User.create!(
-        username: params[:username],
-        email: params[:email],
-        password: params[:password]
-      )
-      present user, with: Entity::UserEntity
     end
   end
 end

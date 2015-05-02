@@ -6,7 +6,7 @@ module Entity
     expose :commentable_id
     expose :commentable_type
     expose :user do |comment, options|
-      UserEntity.new(comment.user, options)
+      UserLiteEntity.new(comment.user, options)
     end
   end
 end
