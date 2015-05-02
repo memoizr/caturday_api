@@ -10,7 +10,7 @@ module Entity
     expose :reshare_count
 
     expose :user do |post, options|
-      UserEntity.new(post.user, options)
+      UserLiteEntity.new(post.user, options)
     end
 
     expose :comments do |post, options|

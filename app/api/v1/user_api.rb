@@ -7,7 +7,7 @@ class Api::V1::UserApi < Grape::API
     ## GET
     get ':id' do
       user = ::User.find(params[:id])
-      present user, with: Entity::UserEntity
+      present user, with: Entity::UserProfileEntity
     end
 
     ## PUT
@@ -18,23 +18,13 @@ class Api::V1::UserApi < Grape::API
           user.update_attributes(
             params
           )
-          present user, with: Entity::UserEntity
+          present user, with: Entity::UserProfileEntity
         else
           error! user.errors
         end
       else
         error! 'Unauthorized, invalid password email', 401
       end
-    end
-
-    # CREATE
-    post  do
-      user = ::User.create!(
-        username: params[:username],
-        email: params[:email],
-        password: params[:password]
-      )
-      present user, with: Entity::UserEntity
     end
   end
 end
