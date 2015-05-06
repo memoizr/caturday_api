@@ -7,7 +7,6 @@ class Api::V1 < Grape::API
 
   helpers Api::Auth
 
-
   mount UserApi
   mount CatPostApi
   mount CommentApi

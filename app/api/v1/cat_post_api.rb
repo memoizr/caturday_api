@@ -2,12 +2,13 @@ class Api::V1::CatPostApi < Grape::API
   resource :cat_post do
 
     helpers do
-      def upload_file(image_file)
-          #name = image_file.filename
-          #directory = "public/"
-          #path = File.join(directory, name)
-          #File.open(path, "wb") { |f| f.write(image_file.tempfile.read) }
-          "http://26.media.tumblr.com/tumblr_lz1xhtmpvK1r4bme3o1_1280.jpg"
+      def upload_file(image_file, category)
+        file = GoogleManager.google_bucket.files.create(
+          key: "#{Time.now.to_i}_post_#{category}_#{SecureRandom.base64}#{File.extname(image_file.filename)}",
+          body: image_file.tempfile,
+          public: true
+        )
+        file.public_url
       end
     end
 
@@ -33,7 +34,7 @@ class Api::V1::CatPostApi < Grape::API
         cat_post = CatPost.create!(
           user_id: current_user.id,
           caption: params[:caption],
-          image_url: params[:image_url] ? params[:image_url] : upload_file(params[:image_file]),
+          image_url: params[:image_url] ? params[:image_url] : upload_file(params[:image_file], params[:category]),
           category: params[:category]
         )
 
@@ -42,7 +43,6 @@ class Api::V1::CatPostApi < Grape::API
          puts "not logged in"
       end
     end
-
   end
 end
 
