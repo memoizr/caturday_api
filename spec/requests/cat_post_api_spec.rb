@@ -4,36 +4,36 @@ describe Api::V1::CatPostApi, :type => :request do
   let!(:current_user) { create(:user, username: 'Foobar', email: "foo@bar.com", password: 'helloworld') }
 
   describe 'POST #create' do
-    context "with image upload" do
-      before do
-        Grape::Endpoint.before_each do |endpoint|
-          allow(endpoint).to receive(:upload_file).and_return "lolol.com"
-        end
+    #context "with image upload" do
+      #before do
+        #Grape::Endpoint.before_each do |endpoint|
+          #allow(endpoint).to receive(:upload_file).and_return "lolol.com"
+        #end
 
-        test_image = Rails.root.join("spec", "fixtures", "catimage.jpg")
-        file = Rack::Test::UploadedFile.new(test_image, "image/jpeg")
-        post "/api/v1/cat_post", {
-          caption: "helloworld",
-          image_file: {filename: "hello.jpg", tempfile: file},
-          category: "Space"
-        }, {
-          "Auth-Token" => current_user.authentication_token,
-          "CONTENT_TYPE" => "application/json"
-        }
-      end
-      after { Grape::Endpoint.before_each nil }
+        #test_image = Rails.root.join("spec", "fixtures", "catimage.jpg")
+        #file = Rack::Test::UploadedFile.new(test_image, "image/jpeg")
+        #post "/api/v1/cat_post", {
+          #caption: "helloworld",
+          #image_file: {filename: "hello.jpg", tempfile: file},
+          #category: "Space"
+        #}, {
+          #"Auth-Token" => current_user.authentication_token,
+          #"CONTENT_TYPE" => "application/json"
+        #}
+      #end
+      #after { Grape::Endpoint.before_each nil }
 
-      it "returns 201" do
-        expect(response.status).to eq(201)
-      end
+      #it "returns 201" do
+        #expect(response.status).to eq(201)
+      #end
 
-      it "returns the newly created post" do
-        body = JSON.parse(response.body)
-        expect(body["caption"]).to eq("helloworld")
-        expect(body["category"]).to eq("Space")
-        expect(body["image_url"]).to eq("lolol.com")
-      end
-    end
+      #it "returns the newly created post" do
+        #body = JSON.parse(response.body)
+        #expect(body["caption"]).to eq("helloworld")
+        #expect(body["category"]).to eq("Space")
+        #expect(body["image_url"]).to eq("lolol.com")
+      #end
+    #end
 
     context "with image link" do
       before do

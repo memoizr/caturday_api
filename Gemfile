@@ -15,6 +15,7 @@ gem 'grape-entity'
 gem 'grape-swagger'
 gem 'grape-swagger-rails'
 gem 'gcm'
+gem 'fog'
 
 #gem 'grape-kaminari'
 #gem 'garner'
@@ -29,7 +30,7 @@ group :test, :development do
   gem 'timecop'
   gem 'rspec'
   gem 'rspec-rails'
-  gem 'spring'
-  gem 'spring-commands-rspec'
+  #gem 'spring'
+  #gem 'spring-commands-rspec'
   gem 'factory_girl_rails', require: false # manually load in spec/support/factory_girl.rb. its for spring workaround.
 end
