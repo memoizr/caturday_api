@@ -61,6 +61,13 @@ class User
 
   before_save do
     ensure_authentication_token
+    ensure_profile_image
+  end
+
+  def ensure_profile_image
+    unless image_url
+      self.image_url = DefaultImageHelper.default_profile_images.sample
+    end
   end
 
   def log_in(password)

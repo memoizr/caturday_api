@@ -60,16 +60,39 @@ describe Api::V1::CatPostApi, :type => :request do
     end
   end
 
-  describe 'GET #show' do
-    let!(:cat_post_0) { create(:cat_post) }
+  context "GET #show" do
+    let!(:user_one) { create(:user) }
+    let!(:user_two) { create(:user) }
+    let!(:cat_post_0) { create(:cat_post, user_id: user_one.id) }
+    let!(:cat_post_1) { create(:cat_post, user_id: user_two.id) }
+    describe 'with no user parameters' do
+      before do
+        get "/api/v1/cat_post"
+      end
 
-    before do
-      get "/api/v1/cat_post"
+      it "returns 200" do
+
+        expect(response.status).to eq(200)
+      end
     end
 
-    it "returns 200" do
+    describe 'with a user parameter' do
 
-      expect(response.status).to eq(200)
+      before do
+        get "/api/v1/cat_post", {
+          user_id: user_one.id
+        }
+      end
+
+      it "returns 200" do
+        expect(response.status).to eq(200)
+      end
+
+      it "returns the right post" do
+        body = JSON.parse(response.body)
+
+        expect(body.length).to eq 1
+      end
     end
   end
 
