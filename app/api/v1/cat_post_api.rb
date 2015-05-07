@@ -14,9 +14,14 @@ class Api::V1::CatPostApi < Grape::API
 
     # SHOW
     get do
+      user_id = params[:user_id]
       page = params[:page]
       category = params[:category]
-      cat_posts = CatPost.where(category: category).sort(:created_at.desc).page(page).all
+      if user_id
+        cat_posts = CatPost.where(user_id: user_id).sort(:created_at.desc).page(page).all
+      else
+        cat_posts = CatPost.where(category: category).sort(:created_at.desc).page(page).all
+      end
       present cat_posts, with: Entity::CatPostEntity
     end
 

@@ -20,6 +20,10 @@ describe User, :type => :model do
       it 'creates an initial auth token' do
         expect(user.reload.authentication_token).not_to be_empty
       end
+
+      it 'sets a default profile image' do
+        expect(user.reload.image_url).not_to be_empty
+      end
     end
   end
 
