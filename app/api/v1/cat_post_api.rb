@@ -4,7 +4,7 @@ class Api::V1::CatPostApi < Grape::API
     helpers do
       def upload_file(image_file, category)
         file = GoogleManager.google_bucket.files.create(
-          key: "#{Time.now.to_i}_post_#{category}_#{SecureRandom.base64}#{File.extname(image_file.filename)}",
+          key: "#{Time.now.to_i}_post_#{category}_#{SecureRandom.hex}#{File.extname(image_file.filename)}",
           body: image_file.tempfile,
           public: true
         )
