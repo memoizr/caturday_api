@@ -22,9 +22,9 @@ of this license document, but changing it is not allowed.
 
 Add a config file in config/app_environment_variables.rb with a link to your own Google Cloud Storage bucket
 
-ENV['GOOGLE_KEY'] = "xxxxxxxxxxx"
-ENV['GOOGLE_SECRET'] = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-ENV['CATURDAY_GOOGLE_BUCKET'] = "xxxx"
+    ENV['GOOGLE_KEY'] = "xxxxxxxxxxx"
+    ENV['GOOGLE_SECRET'] = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    ENV['CATURDAY_GOOGLE_BUCKET'] = "xxxx"
 
 # Database creation
 
