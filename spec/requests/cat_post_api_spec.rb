@@ -110,6 +110,7 @@ describe Api::V1::CatPostApi, :type => :request do
 
     it "returns the right post" do
       body = JSON.parse(response.body)
+      puts body
       expect(body["server_id"]).to eql(cat_post_0.id.to_s)
     end
   end
