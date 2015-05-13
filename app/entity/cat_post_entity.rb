@@ -6,6 +6,7 @@ module Entity
     expose :category
     expose :download_count
     expose :vote_count
+    expose :created_at
     expose :user_id do |post, options|
       get_user(post).id
     end
