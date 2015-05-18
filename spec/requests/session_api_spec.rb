@@ -35,7 +35,6 @@ describe Api::V1::SessionApi, :type => :request do
           expect(body["username"]).to eq "foobars"
         end
       end
-
       context 'with wrong data'  do
 
         before do
@@ -47,13 +46,11 @@ describe Api::V1::SessionApi, :type => :request do
         end
 
         it "returns right user" do
-          body = JSON.parse(response.body, symbolize_names: true)
-          error = ""
-          body[:message].map{ |k, v|
-            error << "#{k}: #{v.map(&:inspect).join(", ").delete! '""'}; "
-          }
-          puts error
-          expect(body["username"]).to eq "foobars"
+          body = JSON.parse(response.body)
+
+          expect(body["messages"]["password"]).to include "can't be blank"
+          expect(body["messages"]["email"]).to include "can't be blank"
+          expect(body["messages"]["username"]).to include "can't be blank"
         end
       end
     end
