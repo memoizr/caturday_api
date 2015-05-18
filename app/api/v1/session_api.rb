@@ -17,7 +17,7 @@ class Api::V1::SessionApi < Grape::API
       if user && user.log_in(password)
         present user.reload, with: Entity::UserEntity
       else
-        error! 'Unauthorized, invalid password email', 401
+        error!({message: 'Invalid password or email'}, 401)
       end
     end
 
@@ -29,12 +29,17 @@ class Api::V1::SessionApi < Grape::API
     end
 
     post 'register' do
-      user = ::User.create!(
+      user = ::User.create(
         username:   params[:username],
         password:   Base64.decode64(params[:password]),
         email:      params[:email]
       )
-      present user, with: Entity::UserEntity
+      if user.valid?
+        present user, with: Entity::UserEntity
+      else
+        error!({messages: user.errors}, 500)
+      end
+
     end
 
     desc "Logout user and return user object, access token"
@@ -44,7 +49,7 @@ class Api::V1::SessionApi < Grape::API
       if authenticated?
         current_user.log_out
       else
-        error!({:error_code => 404, :error_message => "Invalid token."}, 401)
+        error!({message: "Invalid token."}, 401)
       end
     end
   end

@@ -18,7 +18,6 @@ class CatPost
   belongs_to :user
 
   validates :user_id, presence: true, on: :create
-  validates :caption, presence: true, on: :create
   validates :image_url, presence: true, on: :create
 
 end

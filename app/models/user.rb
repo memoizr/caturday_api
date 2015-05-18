@@ -24,7 +24,7 @@ class User
   many :comments
   many :follows
 
-  validates :password, presence: true, length: {minimum: 6}, on: :create
+  validates :password, presence: true, length: {minimum: 6}
   validates :username, presence: true, length: {maximum: 20}
   validates :email, presence: true, length: {maximum: 50},
     format: {with: VALID_EMAIL_REGEX}, uniqueness: true
