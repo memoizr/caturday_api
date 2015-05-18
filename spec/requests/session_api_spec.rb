@@ -20,18 +20,41 @@ describe Api::V1::SessionApi, :type => :request do
     end
 
     describe 'register' do
+      context 'with right data'  do
 
-      before do
-        post "/api/v1/sessions/register", {
-          email: "choo@foo.com",
-          username: "foobars",
-          password: Base64.encode64("helloworld")
-        }
+        before do
+          post "/api/v1/sessions/register", {
+            email: "choo@foo.com",
+            username: "foobars",
+            password: Base64.encode64("helloworld")
+          }
+        end
+
+        it "returns right user" do
+          body = JSON.parse(response.body)
+          expect(body["username"]).to eq "foobars"
+        end
       end
 
-      it "returns right user" do
-        body = JSON.parse(response.body)
-        expect(body["username"]).to eq "foobars"
+      context 'with wrong data'  do
+
+        before do
+          post "/api/v1/sessions/register", {
+            email: "",
+            username: "",
+            password: ""
+          }
+        end
+
+        it "returns right user" do
+          body = JSON.parse(response.body, symbolize_names: true)
+          error = ""
+          body[:message].map{ |k, v|
+            error << "#{k}: #{v.map(&:inspect).join(", ").delete! '""'}; "
+          }
+          puts error
+          expect(body["username"]).to eq "foobars"
+        end
       end
     end
 
