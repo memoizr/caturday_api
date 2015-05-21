@@ -8,5 +8,6 @@ module Entity
     expose :downloads
     expose :authentication_token
     expose :favorites
+    expose :gcm_registration
   end
 end

@@ -14,5 +14,6 @@ class Api::V1 < Grape::API
   mount VoteApi
   mount FollowApi
   mount SessionApi
+  mount GcmRegistrationApi
 end
 
