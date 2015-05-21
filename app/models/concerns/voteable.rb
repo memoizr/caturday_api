@@ -20,7 +20,11 @@ module Voteable
   def notify_user(vote_id)
     vote = Vote.find(vote_id)
     voter = User.find(vote.user.id)
-    data = {message: "#{voter.username} +1'd your post!"}
+    data = {
+      message: "#{voter.username} +1'd your post!",
+      post_id: vote.voteable_id,
+      type: "post_voted"
+    }
     GcmSender.send_to_ids([self.user.gcm_registration], data, "post_voted")
   end
 end
