@@ -9,7 +9,7 @@ module Voteable
   def add_vote(vote_id)
     self.increment vote_count: 1
     self.push vote_ids: vote_id
-    notify_user(vote_id)
+    notify_of_new_vote(vote_id)
   end
 
   def remove_vote(vote_id)
@@ -17,7 +17,7 @@ module Voteable
     self.pop vote_ids: vote_id
   end
 
-  def notify_user(vote_id)
+  def notify_of_new_vote(vote_id)
     vote = Vote.find(vote_id)
     voter = User.find(vote.user.id)
     data = {
