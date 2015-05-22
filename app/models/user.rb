@@ -14,6 +14,7 @@ class User
   key :first_name, String
   key :last_name, String
   key :image_url, String
+  key :gcm_registration, String
   key :cover_image_url, String
   key :account_suspended, String, default: false
   key :downloads, Array
@@ -94,5 +95,9 @@ class User
   def log_out
     set authentication_token: nil
     set last_sign_in_at: Time.now
+  end
+
+  def register_gcm(reg_id)
+    set gcm_registration: reg_id
   end
 end

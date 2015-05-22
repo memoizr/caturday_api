@@ -19,5 +19,4 @@ class CatPost
 
   validates :user_id, presence: true, on: :create
   validates :image_url, presence: true, on: :create
-
 end

@@ -62,4 +62,17 @@ describe User, :type => :model do
         expect(user.reload.last_sign_in_at).not_to be_nil
       end
   end
+
+  describe "register_gcm" do
+      let!(:user) { create(:user, password: "helloworld") }
+
+      before do
+        user.register_gcm "12345"
+      end
+
+      it "it registers the device with gcm" do
+        expect(user.reload.gcm_registration).to eq ("12345")
+      end
+
+  end
 end
