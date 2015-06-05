@@ -110,8 +110,29 @@ describe Api::V1::CatPostApi, :type => :request do
 
     it "returns the right post" do
       body = JSON.parse(response.body)
-      puts body
       expect(body["server_id"]).to eql(cat_post_0.id.to_s)
+    end
+  end
+
+  describe 'DELETE post' do
+    let!(:cat_post_0) { create(:cat_post) }
+    let!(:cat_post_1) { create(:cat_post) }
+
+    before do
+      delete "/api/v1/cat_post/#{cat_post_0.id}", {}.to_json, {
+          "Auth-Token" => current_user.authentication_token,
+          "CONTENT_TYPE" => "application/json"
+        }
+    end
+
+    it "returns 200" do
+      expect(response.status).to eq(200)
+    end
+
+    it "deletes the right post" do
+      expect(CatPost.all.count).to eq 1
+      expect(CatPost.find(cat_post_0.id)).to eq nil
+      expect(CatPost.find(cat_post_1.id)).to eq cat_post_1
     end
   end
 end

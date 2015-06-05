@@ -27,4 +27,11 @@ module Commentable
     }
     GcmSender.send_to_ids([self.user.gcm_registration], data, "post_commented")
   end
+
+  def destroy
+    Comment.find(self.comment_ids).each do |comment|
+      comment.destroy
+    end
+    super
+  end
 end

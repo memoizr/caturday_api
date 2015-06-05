@@ -44,8 +44,13 @@ class Api::V1::CatPostApi < Grape::API
         )
 
         present cat_post, with: Entity::CatPostEntity
-      else
-         puts "not logged in"
+      end
+    end
+
+    delete ':id' do
+      if authenticated?
+        cat_post = CatPost.find(params[:id])
+        cat_post.destroy
       end
     end
   end
