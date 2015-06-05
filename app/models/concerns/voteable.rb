@@ -27,4 +27,11 @@ module Voteable
     }
     GcmSender.send_to_ids([self.user.gcm_registration], data, "post_voted")
   end
+
+  def destroy
+    Vote.find(self.vote_ids).each do |vote|
+      vote.destroy
+    end
+    super
+  end
 end
